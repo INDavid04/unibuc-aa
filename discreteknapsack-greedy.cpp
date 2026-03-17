@@ -1,5 +1,9 @@
 /// https://cms.fmi.unibuc.ro/problem/discreteknapsack
 
+//////////////
+/// Greedy ///
+//////////////
+
 #include <iostream>
 
 using namespace std;
