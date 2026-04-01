@@ -74,7 +74,11 @@ public:
             }
         }
 
-        return suma_maxima;
+        if (suma_maxima > numar_maxim) {
+            return suma_maxima;
+        } else {
+            return numar_maxim;
+        }
     }
 };
 
