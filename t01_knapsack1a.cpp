@@ -1,5 +1,6 @@
 /// Irimia David - Grupa 241
-/// Saturday, 4th of April, 2026, 15:38-15:50, 12 minutes
+/// Saturday, 4th of April, 2026, 15:38-15:50, 12 minutes, attempt #1 a wrong one :)
+/// Monday, 6h of April, 2026, 10:22-10:52, 30 minutes, attempt #2 a good one :)
 
 //////////
 /// IN ///
@@ -33,50 +34,53 @@
 using namespace std;
 
 int main() {
-    int lungime_sir, limita_suma, suma_maxima[101][101];
+    int limita_sir, limita_suma, suma_maxima[101][101];
     
-    /// Lungimea sirului
-    cin >> lungime_sir;
-
-    /// Numerele din sir
-    for (int i = 1; i <= lungime_sir; i++) {
+    /// Sirul de numere
+    cin >> limita_sir;
+    for (int i = 1; i <= limita_sir; i++) {
         cin >> suma_maxima[i][0];
     }
 
-    /// Limita sumei din cerinta
+    /// Limitele sumei
     cin >> limita_suma;
-
-    /// Sumele maxime
-    for (int j = 0; j <= limita_suma; j++) {
-        suma_maxima[0][j + 1] = j;
+    for (int j = 1; j <= limita_suma + 1; j++) {
+        suma_maxima[0][j] = j - 1;
     }
 
-    /// Prima linie
-    for (int j = 1; j <= limita_suma; j++) {
-        if (j < suma_maxima[1][0]) {
+    /// Primul rand
+    for (int j = 1; j <= limita_suma + 1; j++) {
+        if (suma_maxima[0][j] < suma_maxima[1][0]) {
             suma_maxima[1][j] = 0;
         } else {
             suma_maxima[1][j] = suma_maxima[1][0];
         }
     }
 
-    /// Restul tabelului
-    for (int i = 2; i < lungime_sir; i++) {
-        for (int j = 1; j <= limita_suma; j++) {
-            // if (j < suma_maxima[i][0]) {
-            //     suma_maxima[i][j] = suma_maxima[i-1][j];
-            // } else if (suma_maxima[i][0] + suma_maxima[i-1][j-suma_maxima[i][0]] > suma_maxima[i-1][j]) {
-            //     suma_maxima[i][j] = suma_maxima[i][0] + suma_maxima[i-1][j-suma_maxima[i][0]];
-            // } else {
-            //     suma_maxima[i][j] = suma_maxima[i-1][j];
-            // }
-            cout << suma_maxima[i][j] << " ";
+    /// Restul randurilor
+    for (int i = 2; i <= limita_sir; i++) {
+        for (int j = 1; j <= limita_suma + 1; j++) {
+            if (suma_maxima[0][j] >= suma_maxima[i][0]) {
+                if (suma_maxima[i][0] + suma_maxima[i-1][j-suma_maxima[i][0]] > suma_maxima[i-1][j]) {
+                    suma_maxima[i][j] = suma_maxima[i][0] + suma_maxima[i-1][j-suma_maxima[i][0]];
+                } else {
+                    suma_maxima[i][j] = suma_maxima[i - 1][j];
+                }
+            } else {
+                suma_maxima[i][j] = suma_maxima[i - 1][j];
+            }
         }
-        cout << "\n";
     }
 
-    /// Raspunsul, solutia problemei se afla in ultima celula din tabel
-    cout << suma_maxima[lungime_sir-1][limita_suma];
+    /// TEST: Afiseaza tabelul cu sumele maxime
+    // for (int i = 0; i <= limita_sir; i++) {
+    //     for (int j = 0; j <= limita_suma + 1; j++) {
+    //         cout << suma_maxima[i][j] << " ";
+    //     }
+    //     cout << "\n";
+    // }
+
+    cout << suma_maxima[limita_sir][limita_suma + 1] << "\n";
 
     return 0;
 }
