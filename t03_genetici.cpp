@@ -1,13 +1,14 @@
-/////////////////////////////////////////////////
-/// Tema laborator: Algoritmi Genetici         //
-/// Nume: Irimia David                         //
-/// Grupa: 241                                 //
-/// Attempt #1: Mon, 13 Apr, 2026, 11:22-13:17 //
-/////////////////////////////////////////////////
+//////////////////////////////////////////////////
+/// Tema laborator: Algoritmi Genetici         ///
+/// Nume: Irimia David                         ///
+/// Grupa: 241                                 ///
+/// Attempt #1: Mon, 13 Apr, 2026, 11:22-13:17 ///
+/// Attempt #2: Mon, 13 Apr, 2026, 13:51-14:28 ///
+//////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
 #include <fstream> /// ifstream, ofstream
-#include <cmath> /// log(), pow
+#include <cmath> /// log(), pow()
 #include <cstdlib> /// rand()
 
 using namespace std;
@@ -75,10 +76,10 @@ int main() {
     fout << "######################\n";
     fout << "\n";
 
-    int cromozom[numar_cromozomi][numar_biti]; /// reprezentarea binara
+    int cromozom_binar[numar_cromozomi][numar_biti]; /// reprezentarea binara
     for (int i = 0; i < numar_cromozomi; i++) {
         for (int j = 0; j < numar_biti; j++) {
-            cromozom[i][j] = rand() % 2;
+            cromozom_binar[i][j] = rand() % 2;
         }
     }
 
@@ -92,9 +93,39 @@ int main() {
         }
         fout << i + 1 << ": ";
         for (int j = 0; j < numar_biti; j++) {
-            fout << cromozom[i][j];
+            fout << cromozom_binar[i][j];
         }
         fout << "\n";
+    }
+
+    /////////////////////////////////////////////////
+    /// Afiseaza valoarea cromozomului in domeniu ///
+    /////////////////////////////////////////////////
+
+    fout << "\n";
+    fout << "####################################################\n";
+    fout << "# Valoarea corespunzatoare cromozomului in domeniu #\n";
+    fout << "####################################################\n";
+    fout << "\n";
+
+    /// Converteste din binar in zecimal
+    long long cromozom_zecimal;
+
+    /// Converteste numarul zecimal calculat intr-un numar din intervalul dat
+    double cromozom_real[numar_cromozomi];
+   
+    for (int i = 0; i < numar_cromozomi; i++) {
+        cromozom_zecimal = 0;
+        for (int j = numar_biti - 1; j >= 0; j--) {
+            cromozom_zecimal += cromozom_binar[i][j] * pow(2, abs(numar_biti - j - 1));
+        }
+
+        cromozom_real[i] = capat_stang + cromozom_zecimal * (capat_drept - capat_stang) / (pow(2, numar_biti) - 1);
+
+        if (i < 9) {
+            fout << " ";
+        }
+        fout << i + 1 << ": " << cromozom_real[i] << "\n";
     }
 
     return 0;
