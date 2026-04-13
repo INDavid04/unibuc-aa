@@ -4,6 +4,7 @@
 /// Grupa: 241                                 ///
 /// Attempt #1: Mon, 13 Apr, 2026, 11:22-13:17 ///
 /// Attempt #2: Mon, 13 Apr, 2026, 13:51-14:28 ///
+/// Attempt #3: Mon, 13 Apr, 2026, 14:33-14:50 ///
 //////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -66,15 +67,9 @@ int main() {
     fout << "\n";
     fout << "Numar biti: " << numar_biti << "\n";
 
-    ////////////////////////////////////////
-    /// Genereaza populatia la nimereala ///
-    ////////////////////////////////////////
-
-    fout << "\n";
-    fout << "######################\n";
-    fout << "# Populatia initiala #\n";
-    fout << "######################\n";
-    fout << "\n";
+    /////////////////////////////////////////
+    /// Genereaza cromozomii la nimereala ///
+    /////////////////////////////////////////
 
     int cromozom_binar[numar_cromozomi][numar_biti]; /// reprezentarea binara
     for (int i = 0; i < numar_cromozomi; i++) {
@@ -83,9 +78,15 @@ int main() {
         }
     }
 
-    //////////////////////////
-    /// Afiseaza populatia ///
-    //////////////////////////
+    /////////////////////////////////////////////////////
+    /// Afiseaza reprezentarea pe biti a cromozomului ///
+    /////////////////////////////////////////////////////
+
+    fout << "\n";
+    fout << "########################################\n";
+    fout << "# Reprezentarea pe biti a cromozomului #\n";
+    fout << "########################################\n";
+    fout << "\n";
 
     for (int i = 0; i < numar_cromozomi; i++) {
         if (i < 9) {
@@ -98,9 +99,9 @@ int main() {
         fout << "\n";
     }
 
-    /////////////////////////////////////////////////
-    /// Afiseaza valoarea cromozomului in domeniu ///
-    /////////////////////////////////////////////////
+    /////////////////////////////////////////////////////////////////
+    /// Afiseaza valoarea corespunzatoare cromozomului in domeniu ///
+    /////////////////////////////////////////////////////////////////
 
     fout << "\n";
     fout << "####################################################\n";
@@ -126,6 +127,47 @@ int main() {
             fout << " ";
         }
         fout << i + 1 << ": " << cromozom_real[i] << "\n";
+    }
+
+    /////////////////////////////////////////////////////////////////
+    /// Afiseaza valoarea corespunzatoare cromozomului in domeniu ///
+    /////////////////////////////////////////////////////////////////
+
+    fout << "\n";
+    fout << "#############################################\n";
+    fout << "# Valoarea functiei in punctul cromozomului #\n";
+    fout << "#############################################\n";
+    fout << "\n";
+
+    double fitness[numar_cromozomi]; /// valoarea functiei in punctul din domeniu care corespunde cromozomului
+    for (int i = 0; i < numar_cromozomi; i++) {
+        fitness[i] = a * pow(cromozom_real[i], 2) + b * cromozom_real[i] + c;
+
+        if (i < 9) {
+            fout << " ";
+        }
+        fout << i + 1 << ": " << fitness[i] << "\n";
+    }
+
+    /////////////////////////////////////////////////////////////////
+    /// Afiseaza valoarea corespunzatoare cromozomului in domeniu ///
+    /////////////////////////////////////////////////////////////////
+
+    fout << "\n";
+    fout << "##########################\n";
+    fout << "### Populatia initiala ###\n";
+    fout << "##########################\n";
+    fout << "\n";
+
+    for (int i = 0; i < numar_cromozomi; i++) {
+        if (i < 9) {
+            fout << " ";
+        }
+        fout << i + 1 << ": ";
+        for (int j = 0; j < numar_biti; j++) {
+            fout << cromozom_binar[i][j];
+        }
+        fout << "; x = " << cromozom_real[i] << "; f = " << fitness[i] << "\n";
     }
 
     return 0;
