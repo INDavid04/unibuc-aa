@@ -165,5 +165,26 @@ int main() {
         fout << i + 1 << " probabilitate " << prob_selectie[i] << "\n";
     }
 
+    ///////////////////////////////////
+    /// Intervalele pentru selectie ///
+    ///////////////////////////////////
+
+    double prob_cumulate[numar_cromozomi + 1];
+    prob_cumulate[0] = 0;
+    for (int i = 1; i <= numar_cromozomi; i++) {
+        prob_cumulate[i] = prob_cumulate[i - 1] + prob_selectie[i - 1];
+    }
+
+    fout << "\n";
+    fout << "####################################\n";
+    fout << "# Intervale probabilitati selectie #\n";
+    fout << "####################################\n";
+    fout << "\n";
+
+    for (int i = 0; i <= numar_cromozomi; i++) {
+        fout << prob_cumulate[i] << " ";
+    }
+    fout << "\n";
+
     return 0;
 }
