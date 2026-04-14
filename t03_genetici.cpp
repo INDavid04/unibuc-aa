@@ -5,7 +5,8 @@
 /// Attempt #1: Mon, 13 Apr, 2026, 11:22-13:17 ///
 /// Attempt #2: Mon, 13 Apr, 2026, 13:51-14:28 ///
 /// Attempt #3: Mon, 13 Apr, 2026, 14:33-14:50 ///
-/// Attempt #4: Mon, 14 Apr, 2026, 13:25-13:40 ///
+/// Attempt #4: Tue, 14 Apr, 2026, 13:25-13:40 ///
+/// Attempt #5: Tue, 14 Apr, 2026, 22:35-todo
 //////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -133,6 +134,35 @@ int main() {
             fout << cromozom_binar[i][j];
         }
         fout << "; x = " << cromozom_real[i] << "; f = " << fitness[i] << "\n";
+    }
+
+    ///////////////////////////////////
+    /// Probabilitatile de selectie ///
+    ///////////////////////////////////
+
+    double suma_fitnessurilor = 0;
+    for (int i = 0; i < numar_cromozomi; i++) {
+        suma_fitnessurilor += fitness[i];
+    }
+
+    double prob_selectie[numar_cromozomi];
+    for (int i = 0; i < numar_cromozomi; i++) {
+        
+        prob_selectie[i] = fitness[i] / suma_fitnessurilor;
+    }
+
+    fout << "\n";
+    fout << "###############################\n";
+    fout << "# Probabilitatile de selectie #\n";
+    fout << "###############################\n";
+    fout << "\n";
+
+    for (int i = 0; i < numar_cromozomi; i++) {
+        fout << "cromozom ";
+        if (i < 9) {
+            fout << " ";
+        }
+        fout << i + 1 << " probabilitate " << prob_selectie[i] << "\n";
     }
 
     return 0;

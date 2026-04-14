@@ -100,3 +100,28 @@ Numar biti: 22
 18: 1001001011110110010000; x = 0.72221; f = 2.20062
 19: 0100010000001011100010; x = -0.202597; f = 1.75636
 20: 0100011011111001001011; x = -0.168281; f = 1.8034
+
+###############################
+# Probabilitatile de selectie #
+###############################
+
+cromozom  1 probabilitate 0.0555498
+cromozom  2 probabilitate 0.0493327
+cromozom  3 probabilitate 0.0592562
+cromozom  4 probabilitate 0.0712574
+cromozom  5 probabilitate 0.0549764
+cromozom  6 probabilitate 0.0373585
+cromozom  7 probabilitate 0.039094
+cromozom  8 probabilitate 0.0667433
+cromozom  9 probabilitate 0.0254353
+cromozom 10 probabilitate 0.0608163
+cromozom 11 probabilitate 0.0629453
+cromozom 12 probabilitate 0.0521625
+cromozom 13 probabilitate 0.0172152
+cromozom 14 probabilitate 0.0185218
+cromozom 15 probabilitate 0.0663669
+cromozom 16 probabilitate 0.0362674
+cromozom 17 probabilitate 0.0429838
+cromozom 18 probabilitate 0.070185
+cromozom 19 probabilitate 0.056016
+cromozom 20 probabilitate 0.0575163
