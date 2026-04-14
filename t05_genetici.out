@@ -1,7 +1,4 @@
-###################
-# Date de intrare #
-###################
-
+--> Date de intrare
 Numar cromozomi: 20
 Interval: [-1, 2]
 Coeficienti polinom: -1, 1, 2
@@ -10,16 +7,10 @@ Probabilitate recombinare: 0.25
 Probabilitate mutatie: 0.01
 Numar etape: 50
 
-###################
-# Date aditionale #
-###################
-
+--> Date aditionale
 Numar biti: 22
 
-########################################
-# Reprezentarea pe biti a cromozomului #
-########################################
-
+--> Reprezentarea pe biti a cromozomului
  1: 1011110011010110000010
  2: 1100011110001110101111
  3: 0100101010010001110101
@@ -41,10 +32,7 @@ Numar biti: 22
 19: 0100010000001011100010
 20: 0100011011111001001011
 
-####################################################
-# Valoarea corespunzatoare cromozomului in domeniu #
-####################################################
-
+--> Valoarea corespunzatoare cromozomului in domeniu
  1: 1.21292
  2: 1.33857
  3: -0.126137
@@ -66,10 +54,7 @@ Numar biti: 22
 19: -0.202597
 20: -0.168281
 
-#############################################
-# Valoarea functiei in punctul cromozomului #
-#############################################
-
+--> Valoarea functiei in punctul cromozomului
  1: 1.74174
  2: 1.54681
  3: 1.85795
@@ -91,9 +76,9 @@ Numar biti: 22
 19: 1.75636
 20: 1.8034
 
-##########################
-### Populatia initiala ###
-##########################
+######################
+# Populatia initiala #
+######################
 
  1: 1011110011010110000010; x = 1.21292; f = 1.74174
  2: 1100011110001110101111; x = 1.33857; f = 1.54681
