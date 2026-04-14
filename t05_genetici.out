@@ -131,3 +131,28 @@ cromozom 20 probabilitate 0.0575163
 ####################################
 
 0 0.0555498 0.104883 0.164139 0.235396 0.290372 0.327731 0.366825 0.433568 0.459004 0.51982 0.582765 0.634928 0.652143 0.670665 0.737032 0.773299 0.816283 0.886468 0.942484 1 
+
+#######################################
+# Evidentierea procesului de selectie #
+#######################################
+
+u = 0.5436 -> selectam cromozomul 11
+u = 0.246 -> selectam cromozomul 5
+u = 0.3414 -> selectam cromozomul 7
+u = 0.3921 -> selectam cromozomul 8
+u = 0.046 -> selectam cromozomul 1
+u = 0.6304 -> selectam cromozomul 12
+u = 0.0028 -> selectam cromozomul 1
+u = 0.8027 -> selectam cromozomul 17
+u = 0.805 -> selectam cromozomul 17
+u = 0.6748 -> selectam cromozomul 15
+u = 0.7556 -> selectam cromozomul 16
+u = 0.8902 -> selectam cromozomul 19
+u = 0.4794 -> selectam cromozomul 10
+u = 0.7697 -> selectam cromozomul 16
+u = 0.8699 -> selectam cromozomul 18
+u = 0.1043 -> selectam cromozomul 2
+u = 0.1039 -> selectam cromozomul 2
+u = 0.2002 -> selectam cromozomul 4
+u = 0.0428 -> selectam cromozomul 1
+u = 0.6403 -> selectam cromozomul 13

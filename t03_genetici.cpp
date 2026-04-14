@@ -6,7 +6,7 @@
 /// Attempt #2: Mon, 13 Apr, 2026, 13:51-14:28 ///
 /// Attempt #3: Mon, 13 Apr, 2026, 14:33-14:50 ///
 /// Attempt #4: Tue, 14 Apr, 2026, 13:25-13:40 ///
-/// Attempt #5: Tue, 14 Apr, 2026, 22:35-todo
+/// Attempt #5: Tue, 14 Apr, 2026, 22:35-23:58 ///
 //////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -15,6 +15,19 @@
 #include <cstdlib> /// rand()
 
 using namespace std;
+
+int cautare_binara(double prob_cumulate[], int stanga, int dreapta, double numar_aleator) {
+    if (stanga == dreapta) {
+        return dreapta;
+    }
+    
+    int mijloc = (stanga + dreapta) / 2;
+    if (numar_aleator < prob_cumulate[mijloc]) {
+        return cautare_binara(prob_cumulate, stanga, mijloc, numar_aleator);
+    } else {
+        return cautare_binara(prob_cumulate, mijloc + 1, dreapta, numar_aleator);
+    }
+}
 
 int main() {
     /// Datele de intrare
@@ -185,6 +198,23 @@ int main() {
         fout << prob_cumulate[i] << " ";
     }
     fout << "\n";
+
+    ///////////////////////////////////////////
+    /// Evidentierea procesului de selectie ///
+    ///////////////////////////////////////////
+
+    fout << "\n";
+    fout << "#######################################\n";
+    fout << "# Evidentierea procesului de selectie #\n";
+    fout << "#######################################\n";
+    fout << "\n";
+
+    for (int i = 0; i < numar_cromozomi; i++) {
+        double numar_aleator = rand() % 10000 / 10000.0; /// acel u din pdf
+        int cromozom_selectat = cautare_binara(prob_cumulate, 0, numar_cromozomi, numar_aleator);
+
+        fout << "u = " << numar_aleator << " -> selectam cromozomul " << cromozom_selectat << "\n";
+    }
 
     return 0;
 }
