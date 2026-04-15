@@ -10,6 +10,7 @@
 /// Attempt #06: Wed, 15 Apr, 2026, 15:00-16:00 ///
 /// Attempt #07: Wed, 15 Apr, 2026, 17:00-19:11 ///
 /// Attempt #08: Wed, 15 Apr, 2026, 20:15-21:45 ///
+/// Attempt #09: Wed, 15 Apr, 2026, 21:45-22:00 ///
 ///////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -351,6 +352,40 @@ int main() {
             fout << bit;
         }
         fout << "\n\n";
+    }
+
+    //////////////////////// 
+    /// Dupa recombinare ///
+    ////////////////////////
+
+    fout << "####################\n";
+    fout << "# Dupa recombinare #\n";
+    fout << "####################\n\n";
+
+    for (int i = 0; i < numar_indivizi_participanti; i++) {
+        /// Recalculeaza reprezentare reala
+        long long cromozom_zecimal = 0, putere = numar_biti - 1;
+        for (int bit : individ_dupa_recombinare[index_participanti[i]].reprezentare_binara) {
+            if (bit == 1) {
+                cromozom_zecimal += pow(2, putere);
+            }
+            putere--;
+        }
+        individ_dupa_recombinare[index_participanti[i]].reprezentare_reala = capat_stang + cromozom_zecimal * (capat_drept - capat_stang) / double(pow(2, numar_biti) - 1);
+
+        /// Recalculeaza fitness
+        individ_dupa_recombinare[index_participanti[i]].fitness = a * pow(individ_dupa_recombinare[index_participanti[i]].reprezentare_reala, 2) + b * individ_dupa_recombinare[index_participanti[i]].reprezentare_reala + c;
+    }
+
+    for (int i = 0; i < numar_cromozomi; i++) {
+        if (i < 9) {
+            fout << " ";
+        }
+        fout << i + 1 << ": ";
+        for (int bit : individ_dupa_recombinare[i].reprezentare_binara) {
+            fout << bit;
+        }
+        fout << "; x = " << individ_dupa_recombinare[i].reprezentare_reala << "; f = " << individ_dupa_recombinare[i].fitness << "\n";
     }
 
     return 0;
