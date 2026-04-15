@@ -254,5 +254,50 @@ int main() {
         fout << "; x = " << individ_dupa_selectie[i].reprezentare_reala << "; f = " << individ_dupa_selectie[i].fitness << "\n";
     }
 
+    /////////////////////////////////////
+    /// Probabilitatea de incrucisare ///
+    /////////////////////////////////////
+
+    fout << "\n";
+    fout << "#################################\n";
+    fout << "# Probabilitatea de incrucisare #\n";
+    fout << "#################################\n";
+    fout << "\n";
+
+    fout << "prob_recombinare: " << prob_recombinare << "\n";
+
+    ///////////////////////////////////////////////////////////////
+    /// Evidentierea cromozomilor care participa la recombinare ///
+    ///////////////////////////////////////////////////////////////
+
+    fout << "\n";
+    fout << "###########################################################\n";
+    fout << "# Evidentierea cromozomilor care participa la recombinare #\n";
+    fout << "###########################################################\n";
+    fout << "\n";
+
+    /// Afiseaza cromozomul cu fitnessul cel mai mare (elitist)
+    fout << " 1: ";
+    for (int bit : individ_dupa_selectie[0].reprezentare_binara) {
+        fout << bit;
+    }
+    fout << " u = " << rand() % 10000 / 10000.0 << " -> \"individul cu fitness-ul cel mai mare va trece automat in generatia urmatoare\"\n";
+
+    for (int i = 1; i < numar_cromozomi; i++) {
+        double numar_aleator = rand() % 10000 / 10000.0;
+        if (i < 9) {
+            fout << " ";
+        }
+        fout << i + 1 << ": ";
+        for (int bit : individ_dupa_selectie[i].reprezentare_binara) {
+            fout << bit;
+        }
+        fout << " u = " << numar_aleator;
+        if (numar_aleator < prob_recombinare) {
+            fout << " < " << prob_recombinare << " -> participa";
+        }
+        fout << "\n";
+    }
+
     return 0;
 }
