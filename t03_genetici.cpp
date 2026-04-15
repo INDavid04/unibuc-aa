@@ -1,15 +1,16 @@
-//////////////////////////////////////////////////
-/// Tema laborator: Algoritmi Genetici         ///
-/// Nume: Irimia David                         ///
-/// Grupa: 241                                 ///
-/// Attempt #1: Mon, 13 Apr, 2026, 11:22-13:17 ///
-/// Attempt #2: Mon, 13 Apr, 2026, 13:51-14:28 ///
-/// Attempt #3: Mon, 13 Apr, 2026, 14:33-14:50 ///
-/// Attempt #4: Tue, 14 Apr, 2026, 13:25-13:40 ///
-/// Attempt #5: Tue, 14 Apr, 2026, 22:35-23:58 ///
-/// Attempt #6: Wed, 15 Apr, 2026, 15:00-16:00 ///
-/// Attempt #7: Wed, 15 Apr, 2026, 17:00-todoo ///
-//////////////////////////////////////////////////
+///////////////////////////////////////////////////
+/// Tema laborator: Algoritmi Genetici          ///
+/// Nume: Irimia David                          ///
+/// Grupa: 241                                  ///
+/// Attempt #01: Mon, 13 Apr, 2026, 11:22-13:17 ///
+/// Attempt #02: Mon, 13 Apr, 2026, 13:51-14:28 ///
+/// Attempt #03: Mon, 13 Apr, 2026, 14:33-14:50 ///
+/// Attempt #04: Tue, 14 Apr, 2026, 13:25-13:40 ///
+/// Attempt #05: Tue, 14 Apr, 2026, 22:35-23:58 ///
+/// Attempt #06: Wed, 15 Apr, 2026, 15:00-16:00 ///
+/// Attempt #07: Wed, 15 Apr, 2026, 17:00-19:11 ///
+/// Attempt #08: Wed, 15 Apr, 2026, 20:15-21:45 ///
+///////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
 #include <fstream> /// ifstream, ofstream
@@ -283,6 +284,9 @@ int main() {
     }
     fout << " u = " << rand() % 10000 / 10000.0 << " -> \"individul cu fitness-ul cel mai mare va trece automat in generatia urmatoare\"\n";
 
+    vector<int> index_participanti;
+    int numar_indivizi_participanti = 0;
+
     for (int i = 1; i < numar_cromozomi; i++) {
         double numar_aleator = rand() % 10000 / 10000.0;
         if (i < 9) {
@@ -295,8 +299,58 @@ int main() {
         fout << " u = " << numar_aleator;
         if (numar_aleator < prob_recombinare) {
             fout << " < " << prob_recombinare << " -> participa";
+            index_participanti.push_back(i);
+            numar_indivizi_participanti++;
         }
         fout << "\n";
+    }
+
+    /////////////////////////////////////////////
+    /// Recombinari / Incrucisari / Crossover ///
+    /////////////////////////////////////////////
+
+    fout << "\n";
+    fout << "#########################################\n";
+    fout << "# Recombinari / Incrucisari / Crossover #\n";
+    fout << "#########################################\n";
+    fout << "\n";
+
+    vector<Individ> individ_dupa_recombinare;
+    for (auto individ : individ_dupa_selectie) {
+        individ_dupa_recombinare.push_back(individ);
+    }
+
+    if (numar_indivizi_participanti % 2 == 1) {
+        numar_indivizi_participanti--;
+    }
+    int numar_recombinari = numar_indivizi_participanti / 2;
+
+    for (int i = 0; i < numar_recombinari; i++) {
+        int punct_rupere = rand() % numar_biti;
+        fout << "Recombinare dintre cromozomul " << index_participanti[i] + 1 << " cu cromozomul " << index_participanti[numar_indivizi_participanti - i - 1] + 1 << ":\n";
+        for (auto bit : individ_dupa_selectie[index_participanti[i]].reprezentare_binara) {
+            fout << bit;
+        }
+        fout << " ";
+        for (auto bit : individ_dupa_selectie[index_participanti[numar_indivizi_participanti - i - 1]].reprezentare_binara) {
+            fout << bit;
+        }
+        fout << " punct " << punct_rupere << "\nRezultat ";
+
+        for (int k = 0; k < punct_rupere; k++) {
+            individ_dupa_recombinare[index_participanti[i]].reprezentare_binara[k] = individ_dupa_selectie[index_participanti[numar_indivizi_participanti - i - 1]].reprezentare_binara[k];
+
+            individ_dupa_recombinare[index_participanti[numar_indivizi_participanti - i - 1]].reprezentare_binara[k] = individ_dupa_selectie[index_participanti[i]].reprezentare_binara[k];
+        }
+
+        for (auto bit : individ_dupa_recombinare[index_participanti[i]].reprezentare_binara) {
+            fout << bit;
+        }
+        fout << " ";
+        for (auto bit : individ_dupa_recombinare[index_participanti[numar_indivizi_participanti - i - 1]].reprezentare_binara) {
+            fout << bit;
+        }
+        fout << "\n\n";
     }
 
     return 0;
