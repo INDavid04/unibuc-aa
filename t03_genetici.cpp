@@ -7,6 +7,7 @@
 /// Attempt #3: Mon, 13 Apr, 2026, 14:33-14:50 ///
 /// Attempt #4: Tue, 14 Apr, 2026, 13:25-13:40 ///
 /// Attempt #5: Tue, 14 Apr, 2026, 22:35-23:58 ///
+/// Attempt #6: Wed, 15 Apr, 2026, 15:00-16:00 ///
 //////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -15,6 +16,50 @@
 #include <cstdlib> /// rand()
 
 using namespace std;
+
+/// Citim din fisier pentru viteza si afisam in fisier pentru ca s-a cerut
+ifstream fin("t04_genetici.in");
+ofstream fout("t05_genetici.out");
+
+class Cromozom {
+private:
+    int cromozom_binar[1001];
+    double cromozom_real, fitness;
+protected:
+public:
+    void afiseazaCromozomBinar(int numar_biti) const {
+        for (int i = 0; i < numar_biti; i++) {
+            fout << cromozom_binar[i];
+        }
+        fout << "\n";
+    }    
+
+    /// Getteri
+    const int getBinar(int j) const {
+        return cromozom_binar[j];
+    }
+    
+    const double getCromozomReal() const {
+        return cromozom_real;
+    }
+
+    const double getFitness() const {
+        return fitness;    
+    }
+
+    /// Setteri
+    void setCromozomBinar(int j, int valoare) {
+        cromozom_binar[j] = valoare;
+    }
+
+    void setCromozomReal(int valoare) {
+        cromozom_real = valoare;
+    }
+
+    void setFitness(int valoare) {
+        fitness = valoare;
+    }
+};
 
 int cautare_binara(double prob_cumulate[], int stanga, int dreapta, double numar_aleator) {
     if (stanga == dreapta) {
@@ -39,10 +84,6 @@ int main() {
     double prob_mutatie; /// probabilitatea de mutatie
     int numar_etape; /// numarul de etape al algoritmului
 
-    /// Citim din fisier pentru viteza si afisam in fisier pentru ca s-a cerut
-    ifstream fin("t04_genetici.in");
-    ofstream fout("t05_genetici.out");
-
     fin >> numar_cromozomi >> capat_stang >> capat_drept >> a >> b >> c >> precizie >> prob_recombinare >> prob_mutatie >> numar_etape;
 
     fout << "--> Date de intrare";
@@ -59,9 +100,12 @@ int main() {
     /// Populatia initiala ///
     //////////////////////////
 
+    Cromozom cromozom[numar_cromozomi];
+
     /// Calculeaza numarul de biti al unui cromozom 
     /// Pentru intervalul [capat_stang, capat_drept] si o precizie de precizie zecimale:
     double l = log2((capat_drept - capat_stang) * pow(10, precizie));
+    
     int numar_biti = ceil(l);
     fout << "\n";
     fout << "--> Date aditionale";
@@ -69,10 +113,9 @@ int main() {
     fout << "Numar biti: " << numar_biti << "\n";
 
     /// Genereaza cromozomii la nimereala
-    int cromozom_binar[numar_cromozomi][numar_biti]; /// reprezentarea binara
     for (int i = 0; i < numar_cromozomi; i++) {
         for (int j = 0; j < numar_biti; j++) {
-            cromozom_binar[i][j] = rand() % 2;
+            cromozom[i].setCromozomBinar(j, rand() % 2);
         }
     }
 
@@ -86,10 +129,7 @@ int main() {
             fout << " "; /// pentru o mai buna aliniere :)
         }
         fout << i + 1 << ": ";
-        for (int j = 0; j < numar_biti; j++) {
-            fout << cromozom_binar[i][j];
-        }
-        fout << "\n";
+        cromozom[i].afiseazaCromozomBinar(numar_biti);
     }
 
     /// Afiseaza valoarea corespunzatoare cromozomului in domeniu
@@ -106,15 +146,15 @@ int main() {
     for (int i = 0; i < numar_cromozomi; i++) {
         cromozom_zecimal = 0;
         for (int j = numar_biti - 1; j >= 0; j--) {
-            cromozom_zecimal += cromozom_binar[i][j] * pow(2, abs(numar_biti - j - 1));
+            cromozom_zecimal += cromozom[i].getBinar(j) * pow(2, abs(numar_biti - j - 1));
         }
 
-        cromozom_real[i] = capat_stang + cromozom_zecimal * (capat_drept - capat_stang) / (pow(2, numar_biti) - 1);
+        cromozom[i].setCromozomReal(capat_stang + cromozom_zecimal * (capat_drept - capat_stang) / (pow(2, numar_biti) - 1));
 
         if (i < 9) {
             fout << " ";
         }
-        fout << i + 1 << ": " << cromozom_real[i] << "\n";
+        fout << i + 1 << ": " << cromozom[i].getCromozomReal() << "\n";
     }
 
     /// Afiseaza valoarea corespunzatoare cromozomului in domeniu
@@ -122,14 +162,13 @@ int main() {
     fout << "--> Valoarea functiei in punctul cromozomului";
     fout << "\n";
 
-    double fitness[numar_cromozomi]; /// valoarea functiei in punctul din domeniu care corespunde cromozomului
     for (int i = 0; i < numar_cromozomi; i++) {
-        fitness[i] = a * pow(cromozom_real[i], 2) + b * cromozom_real[i] + c;
+        cromozom[i].setFitness(a * pow(cromozom_real[i], 2) + b * cromozom_real[i] + c);
 
         if (i < 9) {
             fout << " ";
         }
-        fout << i + 1 << ": " << fitness[i] << "\n";
+        fout << i + 1 << ": " << cromozom[i].getFitness() << "\n";
     }
     
     fout << "\n";
@@ -144,9 +183,9 @@ int main() {
         }
         fout << i + 1 << ": ";
         for (int j = 0; j < numar_biti; j++) {
-            fout << cromozom_binar[i][j];
+            cromozom[i].afiseazaCromozomBinar(numar_biti);
         }
-        fout << "; x = " << cromozom_real[i] << "; f = " << fitness[i] << "\n";
+        fout << "; x = " << cromozom[i].getCromozomReal() << "; f = " << cromozom[i].getFitness() << "\n";
     }
 
     ///////////////////////////////////
@@ -155,13 +194,13 @@ int main() {
 
     double suma_fitnessurilor = 0;
     for (int i = 0; i < numar_cromozomi; i++) {
-        suma_fitnessurilor += fitness[i];
+        suma_fitnessurilor += cromozom[i].getFitness();
     }
 
     double prob_selectie[numar_cromozomi];
     for (int i = 0; i < numar_cromozomi; i++) {
         
-        prob_selectie[i] = fitness[i] / suma_fitnessurilor;
+        prob_selectie[i] = cromozom[i].getFitness() / suma_fitnessurilor;
     }
 
     fout << "\n";
