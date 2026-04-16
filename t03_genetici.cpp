@@ -13,6 +13,7 @@
 /// Attempt #09: Wed, 15 Apr, 2026, 21:45-22:00 ///
 /// Attempt #10: Thu, 16 Apr, 2026, 16:00-16:15 ///
 /// Attempt #11: Thu, 16 Apr, 2026, 16:15-16:50 ///
+/// Attempt #12: Thu, 16 Apr, 2026, 17:00-todoo ///
 ///////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -447,6 +448,27 @@ int main() {
             individ_dupa_mutatie[i].fitness = a * pow(individ_dupa_mutatie[i].reprezentare_reala, 2) + b * individ_dupa_mutatie[i].reprezentare_reala + c;
         }
     }
+    fout << "\n";
+
+    ////////////////////
+    /// Dupa mutatie ///
+    ////////////////////
+
+    fout << "################\n";
+    fout << "# Dupa mutatie #\n";
+    fout << "################\n\n";
+
+    for (int i = 0; i < numar_cromozomi; i++) {
+        if (i < 9) {
+            fout << " ";
+        }
+        fout << i + 1 << ": ";
+        for (int bit : individ_dupa_mutatie[i].reprezentare_binara) {
+            fout << bit;
+        }
+        fout << "; x = " << individ_dupa_mutatie[i].reprezentare_reala << "; f = " << individ_dupa_mutatie[i].fitness << "\n";
+    }
+    fout << "\n";
 
     return 0;
 }
