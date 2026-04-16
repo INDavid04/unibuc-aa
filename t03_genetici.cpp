@@ -12,6 +12,7 @@
 /// Attempt #08: Wed, 15 Apr, 2026, 20:15-21:45 ///
 /// Attempt #09: Wed, 15 Apr, 2026, 21:45-22:00 ///
 /// Attempt #10: Thu, 16 Apr, 2026, 16:00-16:15 ///
+/// Attempt #11: Thu, 16 Apr, 2026, 16:15-16:50 ///
 ///////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -398,7 +399,54 @@ int main() {
     fout << "# Probabilitatea de mutatie pentru fiecare gena #\n";
     fout << "#################################################\n\n";
 
-    fout << "prob_mutatie: " << prob_mutatie << "\n";
+    fout << "prob_mutatie: " << prob_mutatie << "\n\n";
+
+    //////////////////////////// 
+    /// Cromozomi modificati ///
+    ////////////////////////////
+    
+    fout << "########################\n";
+    fout << "# Cromozomi modificati #\n";
+    fout << "########################\n\n";
+
+    vector<Individ> individ_dupa_mutatie;
+
+    for (auto individ : individ_dupa_recombinare) {
+        individ_dupa_mutatie.push_back(individ);
+    }
+
+    fout << "Au fost modificati cromozomii:\n";
+
+    for (int i = 1; i < numar_cromozomi; i++) {
+        bool cromozom_modificat = false;
+        for (int j = 0; j < numar_biti; j++) {
+            double numar_aleator = double(rand() % 1000) / 1000;
+            if (numar_aleator < prob_mutatie) {
+                cromozom_modificat = true;
+                if (individ_dupa_mutatie[i].reprezentare_binara[j] == 0) {
+                    individ_dupa_mutatie[i].reprezentare_binara[j] = 1;
+                } else {
+                    individ_dupa_mutatie[i].reprezentare_binara[j] = 0;
+                }
+            }
+        }
+        if (cromozom_modificat) {
+            fout << i + 1 << "\n";
+
+            /// Recalculeaza reprezentare reala
+            long long cromozom_zecimal = 0, putere = numar_biti - 1;
+            for (int bit : individ_dupa_mutatie[i].reprezentare_binara) {
+                if (bit == 1) {
+                    cromozom_zecimal += pow(2, putere);
+                }
+                putere--;
+            }
+            individ_dupa_mutatie[i].reprezentare_reala = capat_stang + cromozom_zecimal * (capat_drept - capat_stang) / double(pow(2, numar_biti) - 1);
+
+            /// Recalculeaza fitness
+            individ_dupa_mutatie[i].fitness = a * pow(individ_dupa_mutatie[i].reprezentare_reala, 2) + b * individ_dupa_mutatie[i].reprezentare_reala + c;
+        }
+    }
 
     return 0;
 }
