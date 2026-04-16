@@ -11,6 +11,7 @@
 /// Attempt #07: Wed, 15 Apr, 2026, 17:00-19:11 ///
 /// Attempt #08: Wed, 15 Apr, 2026, 20:15-21:45 ///
 /// Attempt #09: Wed, 15 Apr, 2026, 21:45-22:00 ///
+/// Attempt #10: Thu, 16 Apr, 2026, 16:00-16:15 ///
 ///////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -387,6 +388,17 @@ int main() {
         }
         fout << "; x = " << individ_dupa_recombinare[i].reprezentare_reala << "; f = " << individ_dupa_recombinare[i].fitness << "\n";
     }
+    fout << "\n";
+
+    ///////////////////////////////////////////////////// 
+    /// Probabilitatea de mutatie pentru fiecare gena ///
+    /////////////////////////////////////////////////////
+
+    fout << "#################################################\n";
+    fout << "# Probabilitatea de mutatie pentru fiecare gena #\n";
+    fout << "#################################################\n\n";
+
+    fout << "prob_mutatie: " << prob_mutatie << "\n";
 
     return 0;
 }
