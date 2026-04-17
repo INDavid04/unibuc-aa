@@ -14,7 +14,8 @@
 /// Attempt #10: Thu, 16 Apr, 2026, 16:00-16:15 ///
 /// Attempt #11: Thu, 16 Apr, 2026, 16:15-16:50 ///
 /// Attempt #12: Thu, 16 Apr, 2026, 17:00-18:00 ///
-/// Attempt #13: Thu, 16 Apr, 2026, 08:50-09:58 ///
+/// Attempt #13: Thu, 17 Apr, 2026, 08:50-09:58 ///
+/// Attempt #14: Thu, 17 Apr, 2026, 21:45-22:00 ///
 ///////////////////////////////////////////////////
 
 #include <iostream> /// cin, cout, of course :)
@@ -537,6 +538,37 @@ int main() {
             individ[i].reprezentare_reala = individ_dupa_mutatie[i].reprezentare_reala;
             individ[i].fitness = individ_dupa_mutatie[i].fitness;
         }
+
+        /// Salveaza fitness-ul mediu din etapa curenta in array
+        fitness_mediu.push_back(suma_fitnessurilor / numar_cromozomi);
+
+        /// Salveaza fitnessul maxim din etapa curenta in array
+        fitness_maxim.push_back(individ[index_fitness_maxim].fitness); 
+    }
+
+    //////////////////////////
+    /// Evolutia maximului ///
+    //////////////////////////
+
+    fout << "######################\n";
+    fout << "# Evolutia maximului #\n";
+    fout << "######################\n\n";
+
+    for (double fitness : fitness_maxim) {
+        fout << fitness << "\n";
+    }
+    fout << "\n";
+
+    /////////////////////////
+    /// Evolutia mediului ///
+    /////////////////////////
+
+    fout << "######################\n";
+    fout << "# Evolutia mediului #\n";
+    fout << "######################\n\n";
+
+    for (double fitness : fitness_mediu) {
+        fout << fitness << "\n";
     }
 
     return 0;
