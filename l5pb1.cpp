@@ -13,7 +13,7 @@ int main() {
     /// Citeste coordonatele si calculeaza fiecare determinant comparandu-l cu zero
     for (int contor = 0; contor < nrTeste; contor++) {
         cin >> xP >> yP >> xQ >> yQ >> xR >> yR;
-        int determinant = 1*xQ*yR + xP*yQ*1 + yP*xR*1 - 1*xQ*yP - xR*yQ*1 - yR*xP*1;
+        long long determinant = xQ*yR + xR*yP + yQ*xP - xQ*yP - yQ*xR - yR*xP;
         if (determinant > 0) {
             mesaj[contor][0] = 'L';
             mesaj[contor][1] = 'E';
