@@ -3,11 +3,14 @@
 using namespace std;
 
 int main() {
-    int nrTeste, xP, yP, xQ, yQ, xR, yR;
+    /// Declara variabile
+    long long nrTeste, xP, yP, xQ, yQ, xR, yR;
     char mesaj[100007][7];
 
+    /// Citeste numarul de teste (acel t din cerinta)
     cin >> nrTeste;
 
+    /// Citeste coordonatele si calculeaza fiecare determinant comparandu-l cu zero
     for (int contor = 0; contor < nrTeste; contor++) {
         cin >> xP >> yP >> xQ >> yQ >> xR >> yR;
         int determinant = 1*xQ*yR + xP*yQ*1 + yP*xR*1 - 1*xQ*yP - xR*yQ*1 - yR*xP*1;
@@ -34,6 +37,7 @@ int main() {
         }
     }
 
+    /// Afiseaza mesajele corespunzatoare
     for (int contor = 0; contor < nrTeste; contor++) {
         int pozitie_litera = 0;
         while(mesaj[contor][pozitie_litera] != '\0') {
