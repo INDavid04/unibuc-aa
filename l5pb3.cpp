@@ -15,16 +15,15 @@ int main() {
 
     /// Citeste numarul de puncte al poligonului
     cin >> n;
-    index_stang = n - 1;
+    index_stang = n;
     index_drept = n;
 
-    /// Citeste primele trei puncte
+    /// Citeste primele doua puncte
     cin >> punct1.x >> punct1.y;
     cin >> punct2.x >> punct2.y;
-    cin >> punct3.x >> punct3.y;
-    numar_puncte_citite = 3;
+    numar_puncte_citite = 2;
 
-    /// In caz de coliniaritate a primelor puncte
+    /// Citeste alte puncte cat timp primele trei sunt coliniare
     do {
         cin >> punct3.x >> punct3.y;
         numar_puncte_citite++;
@@ -32,58 +31,77 @@ int main() {
 
     /// In caz de viraj stanga cu primele trei puncte
     if (determinant(punct1.x, punct2.x, punct3.x, punct1.y, punct2.y, punct3.y) > 0) {
-        /// Pune primul punct in dreapta
-        puncte[index_drept].x = punct1.x;
-        puncte[index_drept].y = punct1.y;
-        index_drept++;
-
-        /// Pune al doilea punct in dreapta
-        puncte[index_drept].x = punct2.x;
-        puncte[index_drept].y = punct2.y;
-        index_drept++;
-
-        /// Pune al treilea punct in dreapta
-        puncte[index_drept].x = punct3.x;
-        puncte[index_drept].y = punct3.y;
-        index_drept++;
-
-        /// Inchide triughiul cu al treilea punct in stanga (p3, p1, p2, p3)
-        puncte[index_stang].x = punct3.x;
-        puncte[index_stang].y = punct3.y;
-        index_stang--;
+        /// Ordinea punctelor este deja in sensul invers al acelor de ceasornic
+        puncte[index_drept++] = punct3;
+        puncte[index_drept++] = punct1;
+        puncte[index_drept++] = punct2;
+        puncte[index_drept++] = punct3;
     }
 
     /// In caz de viraj dreapta cu primele trei puncte
     if (determinant(punct1.x, punct2.x, punct3.x, punct1.y, punct2.y, punct3.y) < 0) {
-        /// Pune primul punct in stanga
-        puncte[index_stang].x = punct1.x;
-        puncte[index_stang].y = punct1.y;
-        index_stang--;
-
-        /// Pune al doilea punct in stanga
-        puncte[index_stang].x = punct2.x;
-        puncte[index_stang].y = punct2.y;
-        index_stang--;
-
-        /// Pune al treilea punct in stanga
-        puncte[index_stang].x = punct3.x;
-        puncte[index_stang].y = punct3.y;
-        index_stang--;
-
-        /// Inchide triunghiul cu al treilea punct in dreapta (p3, p2, p1, p3)
-        puncte[index_drept].x = punct3.x;
-        puncte[index_drept].y = punct3.y;
-        index_drept++;
+        /// Ordinea punctelor este in sensul acelor de ceasornic, prin urmare, inversam
+        puncte[index_drept++] = punct3;
+        puncte[index_drept++] = punct2;
+        puncte[index_drept++] = punct1;
+        puncte[index_drept++] = punct3;
     }
+
+    // cout << "\ndebug: vezi primele trei puncte, triughiul initial\n";
+    // for (int i = index_stang; i < index_drept; i++) {
+    //     cout << puncte[i].x << " " << puncte[i].y << "\n";
+    // }
 
     /// Citeste restul punctelor
     for (int i = numar_puncte_citite; i < n; i++) {
+        /// Pe input de mai jos avem:
+        /// - Triughiul
+        ///     -5 0
+        ///     -1 1
+        ///     0 3
+        ///     -5 0
+        /// - Inputul fiind
+        ///     10
+        ///     0 3
+        ///     -1 1
+        ///     -5 0
+        ///     -2 -1
+        ///     -4 -5
+        ///     1 -2
+        ///     5 -3
+        ///     3 0
+        ///     6 3
+        ///     2 2
+        /// Adica C, B, A, C
+        /// Il citim pe D(-2,-1) si avem
+        /// -   ACD viraj stanga
+        /// -   DCB viraj dreapta
+        /// Deoarece avem un viraj dreapta, il scoatem pe C de la inceputul listei
         cin >> curent.x >> curent.y;
+
+        /// Daca punctul curent este in interior
+        if (determinant(puncte[index_drept - 2].x, puncte[index_drept - 1].x, curent.x, puncte[index_drept - 2].y, puncte[index_drept - 1].y, curent.y) > 0 && determinant(curent.x, puncte[index_stang].x, puncte[index_stang + 1].x, curent.y, puncte[index_stang].y, puncte[index_stang + 1].y) > 0) {
+            /// Nu se schimba nimic. Se citeste urmatorul punct
+        } else {
+            /// Scoate ultimul punct pana cand obtii neaparat un viraj stanga
+            while (determinant(puncte[index_drept - 2].x, puncte[index_drept - 1].x, curent.x, puncte[index_drept - 2].y, puncte[index_drept - 1].y, curent.y) <= 0) {
+                index_drept--;
+            }
+            /// Pune punctul curent la final
+            puncte[index_drept++] = curent;
+
+            /// Scoate primul punct pana cand obtii un viraj stanga
+            while (determinant(curent.x, puncte[index_stang].x, puncte[index_stang + 1].x, curent.y, puncte[index_stang].y, puncte[index_stang + 1].y) <= 0) {
+                index_stang++;
+            }
+            /// Pune punctul curent la inceput
+            puncte[--index_stang] = curent;
+        }
     }
     
     /// Afiseaza numarul de puncte si punctele
-    cout << "\n" << index << "\n";
-    for (int i = 0; i < index; i++) {
+    cout << index_drept - index_stang - 1 << "\n";
+    for (int i = index_stang; i < index_drept - 1; i++) {
         cout << puncte[i].x << " " << puncte[i].y << "\n";
     }
     
