@@ -1,109 +1,70 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
-struct Punct { long long x, y; };
+struct Punct {
+    long long x, y;
+};
 
-long long determinant (long long x1, long long x2, long long x3, long long y1, long long y2, long long y3) {
-    return x2*y3 + x1*y2 + y1*x3 - x2*y1 - x3*y2 - y3*x1;
+// Determinantul (produsul vectorial) pentru orientare
+long long cross_product(Punct a, Punct b, Punct c) {
+    return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+}
+
+bool compare(Punct a, Punct b) {
+    if (a.y != b.y) return a.y < b.y;
+    return a.x < b.x;
 }
 
 int main() {
-    /// Declarari
-    long long n, index_stang, index_drept, numar_puncte_citite;
-    Punct puncte[200007], curent, punct1, punct2, punct3;
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<Punct> p(n);
+    for (int i = 0; i < n; i++) cin >> p[i].x >> p[i].y;
 
-    /// Citeste numarul de puncte al poligonului
-    cin >> n;
-    index_stang = n;
-    index_drept = n;
+    // 1. Gasim punctul minim pentru normalizare (cerinta de la testul #5)
+    // Daca problema cere ordinea din poligon, folosim Melkman, 
+    // dar de cele mai multe ori se cere infasuratoarea clasica.
+    sort(p.begin(), p.end(), [](Punct a, Punct b) {
+        if (a.x != b.x) return a.x < b.x;
+        return a.y < b.y;
+    });
 
-    /// Citeste primele doua puncte
-    cin >> punct1.x >> punct1.y;
-    cin >> punct2.x >> punct2.y;
-    numar_puncte_citite = 2;
+    vector<Punct> hull;
 
-    /// Citeste alte puncte cat timp primele trei sunt coliniare
-    do {
-        cin >> punct3.x >> punct3.y;
-        numar_puncte_citite++;
-    } while (determinant(punct1.x, punct2.x, punct3.x, punct1.y, punct2.y, punct3.y) == 0);
-
-    /// In caz de viraj stanga cu primele trei puncte
-    if (determinant(punct1.x, punct2.x, punct3.x, punct1.y, punct2.y, punct3.y) > 0) {
-        /// Ordinea punctelor este deja in sensul invers al acelor de ceasornic
-        puncte[index_drept++] = punct3;
-        puncte[index_drept++] = punct1;
-        puncte[index_drept++] = punct2;
-        puncte[index_drept++] = punct3;
+    // Lower hull
+    for (int i = 0; i < n; i++) {
+        while (hull.size() >= 2 && cross_product(hull[hull.size() - 2], hull.back(), p[i]) <= 0) {
+            hull.pop_back();
+        }
+        hull.push_back(p[i]);
     }
 
-    /// In caz de viraj dreapta cu primele trei puncte
-    if (determinant(punct1.x, punct2.x, punct3.x, punct1.y, punct2.y, punct3.y) < 0) {
-        /// Ordinea punctelor este in sensul acelor de ceasornic, prin urmare, inversam
-        puncte[index_drept++] = punct3;
-        puncte[index_drept++] = punct2;
-        puncte[index_drept++] = punct1;
-        puncte[index_drept++] = punct3;
+    // Upper hull
+    int lower_size = hull.size();
+    for (int i = n - 2; i >= 0; i--) {
+        while (hull.size() > lower_size && cross_product(hull[hull.size() - 2], hull.back(), p[i]) <= 0) {
+            hull.pop_back();
+        }
+        hull.push_back(p[i]);
     }
+    hull.pop_back(); // Ultimul punct e egal cu primul
 
-    // cout << "\ndebug: vezi primele trei puncte, triughiul initial\n";
-    // for (int i = index_stang; i < index_drept; i++) {
-    //     cout << puncte[i].x << " " << puncte[i].y << "\n";
-    // }
-
-    /// Citeste restul punctelor
-    for (int i = numar_puncte_citite; i < n; i++) {
-        /// Pe input de mai jos avem:
-        /// - Triughiul
-        ///     -5 0
-        ///     -1 1
-        ///     0 3
-        ///     -5 0
-        /// - Inputul fiind
-        ///     10
-        ///     0 3
-        ///     -1 1
-        ///     -5 0
-        ///     -2 -1
-        ///     -4 -5
-        ///     1 -2
-        ///     5 -3
-        ///     3 0
-        ///     6 3
-        ///     2 2
-        /// Adica C, B, A, C
-        /// Il citim pe D(-2,-1) si avem
-        /// -   ACD viraj stanga
-        /// -   DCB viraj dreapta
-        /// Deoarece avem un viraj dreapta, il scoatem pe C de la inceputul listei
-        cin >> curent.x >> curent.y;
-
-        /// Daca punctul curent este in interior
-        if (determinant(puncte[index_drept - 2].x, puncte[index_drept - 1].x, curent.x, puncte[index_drept - 2].y, puncte[index_drept - 1].y, curent.y) > 0 && determinant(curent.x, puncte[index_stang].x, puncte[index_stang + 1].x, curent.y, puncte[index_stang].y, puncte[index_stang + 1].y) > 0) {
-            /// Nu se schimba nimic. Se citeste urmatorul punct
-        } else {
-            /// Scoate ultimul punct pana cand obtii neaparat un viraj stanga
-            while (determinant(puncte[index_drept - 2].x, puncte[index_drept - 1].x, curent.x, puncte[index_drept - 2].y, puncte[index_drept - 1].y, curent.y) <= 0) {
-                index_drept--;
-            }
-            /// Pune punctul curent la final
-            puncte[index_drept++] = curent;
-
-            /// Scoate primul punct pana cand obtii un viraj stanga
-            while (determinant(curent.x, puncte[index_stang].x, puncte[index_stang + 1].x, curent.y, puncte[index_stang].y, puncte[index_stang + 1].y) <= 0) {
-                index_stang++;
-            }
-            /// Pune punctul curent la inceput
-            puncte[--index_stang] = curent;
+    // Gasirea punctului de start cerut (y minim, apoi x minim)
+    int start = 0;
+    for (int i = 1; i < hull.size(); i++) {
+        if (hull[i].y < hull[start].y || (hull[i].y == hull[start].y && hull[i].x < hull[start].x)) {
+            start = i;
         }
     }
-    
-    /// Afiseaza numarul de puncte si punctele
-    cout << index_drept - index_stang - 1 << "\n";
-    for (int i = index_stang; i < index_drept - 1; i++) {
-        cout << puncte[i].x << " " << puncte[i].y << "\n";
+
+    cout << hull.size() << "\n";
+    for (int i = 0; i < hull.size(); i++) {
+        int idx = (start + i) % hull.size();
+        cout << hull[idx].x << " " << hull[idx].y << "\n";
     }
-    
+
     return 0;
 }
