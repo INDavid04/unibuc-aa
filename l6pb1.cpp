@@ -15,6 +15,12 @@ long long determinant (Punct A, Punct B, Punct C) {
     return (B.x - A.x)*(C.y - A.y) - (B.y - A.y)*(C.x - A.x);
 }
 
+void cautare_binara(Punct R, Pucnt puncte_poligon[], int nr_puncte_poligon) {
+    /// Daca e la stanga primei laturi sau la dreapta ultimei laturi, e in afara
+    long long det1 = determinant(puncte_poligon[0], puncte_poligon[1], R);
+    long long det2 = determinant(puncte_poligon[0], puncte_poligon[n-1], R);
+}
+
 int main() {
     /// Stim deja ca punctele sunt date in ordine trigonometrica
     /// Prin urmare:
@@ -38,27 +44,8 @@ int main() {
         cin >> puncte_plan[i].x >> puncte_plan[i].y;
     }
 
-    /// Afiseaza rezultatul
     for (int i = 0; i < m; i++) {
-        int rezultat = 0; /// by default 0, adica inside, de altfel 1 adica outside si 2 adica boundary
-        for (int j = 0; j < n; j++) {
-            long long det = determinant(puncte_poligon[j], puncte_poligon[(j+1) % n], puncte_plan[i]);
-            if (det < 0) {
-                rezultat = 1; /// outside
-                break;
-            }
-            if (det == 0) {
-                rezultat = 2; /// boundary
-                break;
-            }
-        }
-        if (rezultat == 0) {
-            cout << "INSIDE\n";
-        } else if (rezultat == 1) {
-            cout << "OUTSIDE\n";
-        } else {
-            cout << "BOUNDARY\n";
-        }
+        cautare_binara();
     }
 
     return 0;
