@@ -15,8 +15,9 @@ using namespace std;
 /// yMinim = -INFINITY
 /// yMaxim = +INFINITY
 
-/// Daca un interval este invalid (xMinim > xMaxim sau yMinim > yMaxim) atunci intersectia este vida, afisam VOID
-/// Daca
+/// Daca un interval este invalid atunci intersectia este vida, afisam VOID
+/// Altfel, daca avem un interval nemarginit, afiasa UNBOUNDED
+/// Altfel, afisam BOUNDED, adica ambele intervale sunt marginite
 
 //////////////////////
 /// Exemplu (VOID) ///
