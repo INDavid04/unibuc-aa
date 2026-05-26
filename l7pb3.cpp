@@ -113,7 +113,7 @@ using namespace std;
 /// Ambele intervale sunt valide, marginite, deci afisa BOUNDED
 
 int main() {
-    int n, raspuns[100005];
+    int n;
     double a, b, c;
     double xMinim = -INFINITY;
     double xMaxim = +INFINITY;
