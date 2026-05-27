@@ -93,7 +93,8 @@ int main() {
         if (punctIlegal || isinf(aproapeStanga) || isinf(aproapeDreapta) || isinf(aproapeSus) || isinf(aproapeJos)) {
             cout << "NO\n";
         } else {
-            cout << "YES\n" << (aproapeDreapta - aproapeStanga) * (aproapeSus - aproapeJos) << "\n";
+            cout << "YES\n";
+            printf("%.6f\n", (aproapeDreapta - aproapeStanga) * (aproapeSus - aproapeJos));
         }
     }
     
