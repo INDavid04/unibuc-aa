@@ -47,15 +47,11 @@ int main() {
         cin >> xQ >> yQ;
 
         double aproapeStanga = -INFINITY, aproapeDreapta = +INFINITY, aproapeSus = +INFINITY, aproapeJos = -INFINITY;
-        bool punctIlegal = false;
 
         /// Cauta cea mai aproape linie valida din partea stanga
         for (double linie : liniiStanga) {
             if (linie < xQ && linie > aproapeStanga) {
                 aproapeStanga = linie;
-            }
-            if (linie >= xQ) {
-                punctIlegal = true;
             }
         }
 
@@ -64,18 +60,12 @@ int main() {
             if (linie > xQ && linie < aproapeDreapta) {
                 aproapeDreapta = linie;
             }
-            if (linie <= xQ) {
-                punctIlegal = true;
-            }
         }
 
         /// Cauta cea mai apropiata linie valida din partea de sus
         for (double linie : liniiSus) {
             if (linie > yQ && linie < aproapeSus) {
                 aproapeSus = linie;
-            }
-            if (linie <= yQ) {
-                punctIlegal = true;
             }
         }
 
@@ -84,13 +74,10 @@ int main() {
             if (linie < yQ && linie > aproapeJos) {
                 aproapeJos = linie;
             }
-            if (linie >= yQ) {
-                punctIlegal = true;
-            }
         }
 
         /// Daca dreptunghiul este nemarginit afisam no (i.e. nu am gasit o linie valida intr-o directie), altfel inseamna ca dreptunghiul este valid si ii calculam aria
-        if (punctIlegal || isinf(aproapeStanga) || isinf(aproapeDreapta) || isinf(aproapeSus) || isinf(aproapeJos)) {
+        if (isinf(aproapeStanga) || isinf(aproapeDreapta) || isinf(aproapeSus) || isinf(aproapeJos)) {
             cout << "NO\n";
         } else {
             cout << "YES\n";
