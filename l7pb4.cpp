@@ -64,14 +64,14 @@ int main() {
 
         /// Cauta cea mai apropiata linie valida din partea de sus
         for (double linie : liniiSus) {
-            if (linie > xQ && linie < aproapeSus) {
+            if (linie > yQ && linie < aproapeSus) {
                 aproapeSus = linie;
             }
         }
 
         /// Cauta cea mai apropiata linie valida din partea de jos
         for (double linie : liniiJos) {
-            if (linie < xQ && linie > aproapeJos) {
+            if (linie < yQ && linie > aproapeJos) {
                 aproapeJos = linie;
             }
         }
